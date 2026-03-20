@@ -793,19 +793,7 @@ npx expo run:android
 
 ---
 
-## 👥 Team
 
-> ⚠️ **Fill this before submitting to GitHub:**
-
-| Name | Role | College |
-|:---|:---|:---|
-| [Team Member 1] | [Role e.g. Full Stack Dev] | [College Name] |
-| [Team Member 2] | [Role e.g. ML Engineer] | [College Name] |
-| [Team Member 3] | [Role e.g. UI/UX + Backend] | [College Name] |
-
-**Team Name:** [Your Team Name]
-
----
 
 ## 📄 License
 
