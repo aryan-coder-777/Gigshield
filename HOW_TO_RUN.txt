@@ -1,0 +1,39 @@
+=======================================================
+           HOW TO RUN GIGSHIELD PROJECT
+=======================================================
+
+Since this project has both a Python Backend and a React Native Frontend, you need to open TWO separate terminal windows to run them at the same time.
+
+-------------------------------------------------------
+STEP 1: START THE BACKEND (API)
+-------------------------------------------------------
+1. Open a new Command Prompt (cmd.exe).
+2. Copy and paste the following commands exactly as shown:
+
+cd /d "d:\AI Integration\gigshield\backend"
+venv\Scripts\activate
+uvicorn app.main:app --reload --port 8001
+
+*Note: The `/d` is important in Windows so that your terminal correctly switches to the D: drive!
+*Leave this window open! Your backend is now running at http://localhost:8001.
+
+
+-------------------------------------------------------
+STEP 2: START THE FRONTEND (MOBILE APP)
+-------------------------------------------------------
+1. Open a SECOND new Command Prompt window.
+2. Copy and paste the following commands:
+
+cd /d "d:\AI Integration\gigshield\frontend"
+npm run start
+
+3. A large QR code will appear in your terminal.
+ - Press "a" on your keyboard if you have an Android emulator open.
+ - Press "w" to view it in a web browser.
+ - OR open the "Expo Go" app on your physical smartphone and scan the QR code to run it directly on your phone!
+
+-------------------------------------------------------
+TESTING DATA:
+If you need to log in to the app, the backend automatically creates these demo accounts for you on your first run:
+- Worker Demo: Phone = 9876543210 | Password = ravi1234
+- Admin Demo: Phone = 0000000000 | Password = admin123
