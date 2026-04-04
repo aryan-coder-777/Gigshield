@@ -46,7 +46,12 @@ Robust backend API built using **FastAPI (Python)**.
 
 ## 🚀 Getting Started
 
-### 1. Backend Setup
+### Option A: 1-Click Launch (Windows Only)
+Simply double click the `START_GIGSHIELD.bat` file in the root directory. It will automatically launch two terminal windows, install backend/frontend dependencies, and start both the API and the Mobile App simultaneously!
+
+### Option B: Manual Setup
+
+#### 1. Backend Setup
 
 ```bash
 cd backend
@@ -61,7 +66,7 @@ uvicorn app.main:app --reload --port 8001
 - Worker: `phone: 9876543210`, `pass: ravi1234`
 - Admin: `phone: 0000000000`, `pass: admin123`
 
-### 2. Frontend Setup
+#### 2. Frontend Setup
 
 ```bash
 cd frontend
