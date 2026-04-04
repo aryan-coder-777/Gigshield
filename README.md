@@ -53,7 +53,7 @@ cd backend
 python -m venv venv
 venv\Scripts\activate      # Windows
 pip install -r requirements.txt
-python start_backend.bat   # or uvicorn app.main:app --reload --port 8001
+uvicorn app.main:app --reload --port 8001
 ```
 *Note: The backend runs an automatic database initialization script that creates the tables and populates demo data (Ravi/Admin profiles) using `app/main.py:seed_demo_data()`.*
 
@@ -86,7 +86,6 @@ gigshield/
 │   │   └── services/          # Business logic, trigger monitor, AI fraud logic
 │   ├── models_pkl/            # Cached AI/ML models 
 │   ├── requirements.txt
-│   └── start_backend.bat      # Helper script to launch API
 │
 └── frontend/
     ├── src/
