@@ -58,7 +58,7 @@ cd backend
 python -m venv venv
 venv\Scripts\activate      # Windows
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8001
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8001
 ```
 *Note: The backend runs an automatic database initialization script that creates the tables and populates demo data (Ravi/Admin profiles) using `app/main.py:seed_demo_data()`.*
 

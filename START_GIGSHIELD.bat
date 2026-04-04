@@ -7,7 +7,7 @@ echo               LAUNCHING GIGSHIELD
 echo =======================================================
 echo.
 echo Starting the Backend API in a new window...
-start "GigShield API (Backend)" cmd /k "cd backend & echo Setting up Virtual Environment... & if not exist venv (python -m venv venv) & call venv\Scripts\activate & pip install -r requirements.txt & echo Starting Server... & uvicorn app.main:app --reload --port 8001"
+start "GigShield API (Backend)" cmd /k "cd backend & echo Setting up Virtual Environment... & if not exist venv (python -m venv venv) & call venv\Scripts\activate & pip install -r requirements.txt & echo Starting Server... & uvicorn app.main:app --reload --host 0.0.0.0 --port 8001"
 
 echo Starting the Mobile App in a new window...
 start "GigShield App (Frontend)" cmd /k "cd frontend && echo Installing Frontend Dependencies... && npm install && npm run start"
