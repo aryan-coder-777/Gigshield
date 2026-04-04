@@ -1,6 +1,7 @@
 @echo off
 title GigShield Launcher
 color 0B
+cd /d "%~dp0"
 echo =======================================================
 echo               LAUNCHING GIGSHIELD
 echo =======================================================
