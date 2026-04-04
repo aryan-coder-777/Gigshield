@@ -7,13 +7,20 @@ Since this project has both a Python Backend and a React Native Frontend, you ne
 -------------------------------------------------------
 STEP 1: START THE BACKEND (API)
 -------------------------------------------------------
-1. Open a new Command Prompt or Terminal inside the main 'gigshield' folder.
-2. Run the following commands exactly as shown:
+2. Run the commands below based on your operating system:
 
+[ FOR WINDOWS ]
 cd backend
 python -m venv venv
-venv\Scripts\activate      # Note: Use 'source venv/bin/activate' if on Mac/Linux
+venv\Scripts\activate
 pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8001
+
+[ FOR MAC / LINUX ]
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 uvicorn app.main:app --reload --port 8001
 
 *Leave this window open! Your backend is now running at http://localhost:8001.
