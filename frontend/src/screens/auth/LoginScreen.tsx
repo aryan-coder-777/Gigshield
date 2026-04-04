@@ -50,8 +50,16 @@ export default function LoginScreen() {
         navigation.reset({ index: 0, routes: [{ name: 'WorkerApp' }] });
       }
     } catch (err: any) {
-      const msg = err.response?.data?.detail || 'Login failed. Check your credentials.';
-      Alert.alert('Login Failed', msg);
+      const isNetworkError = err.message === 'Network Error' || err.code === 'ECONNABORTED';
+      const msg = isNetworkError
+        ? 'Cannot connect to the server. Please ensure the Backend API black terminal is running!'
+        : (err.response?.data?.detail || 'Login failed. Check your credentials.');
+      
+      if (Platform.OS === 'web') {
+        window.alert(`Login Failed: ${msg}`);
+      } else {
+        Alert.alert('Login Failed', msg);
+      }
     } finally {
       setLoading(false);
     }
