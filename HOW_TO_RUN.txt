@@ -1,48 +1,63 @@
 =======================================================
-           HOW TO RUN GIGSHIELD PROJECT
+GIGSHIELD - QUICK START GUIDE
 =======================================================
 
-Since this project has both a Python Backend and a React Native Frontend, you need to open TWO separate terminal windows to run them at the same time.
+This project consists of two parts running simultaneously:
+1. Python Backend (FastAPI API server)
+2. React Native Frontend (Expo Mobile App)
 
--------------------------------------------------------
-STEP 1: START THE BACKEND (API)
--------------------------------------------------------
-2. Run the commands below based on your operating system:
+You will need to open TWO separate terminal windows.
 
-[ FOR WINDOWS ]
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8001
+=======================================================
+[ TERMINAL 1: START THE BACKEND API ]
+=======================================================
 
-[ FOR MAC / LINUX ]
-cd backend
-python3 -m venv venv
-source venv/bin/activate
-pip3 install -r requirements.txt
-uvicorn app.main:app --reload --port 8001
+Step 1. Open your first Terminal inside the 'gigshield' folder.
+Step 2. Navigate into the backend folder:
+   > cd backend
 
-*Leave this window open! Your backend is now running at http://localhost:8001.
+Step 3. Run the setup and start commands below based on your OS:
+
+   ► FOR WINDOWS
+      python -m venv venv
+      venv\Scripts\activate
+      pip install -r requirements.txt
+      uvicorn app.main:app --reload --port 8001
+
+   ► FOR MAC / LINUX
+      python3 -m venv venv
+      source venv/bin/activate
+      pip3 install -r requirements.txt
+      uvicorn app.main:app --reload --port 8001
+
+( SUCCESS: Keep this terminal open! Your API is now live at http://localhost:8001 )
 
 
--------------------------------------------------------
-STEP 2: START THE FRONTEND (MOBILE APP)
--------------------------------------------------------
-1. Open a SECOND new Command Prompt/Terminal window inside the main 'gigshield' folder.
-2. Run the following commands:
+=======================================================
+[ TERMINAL 2: START THE FRONTEND APP ]
+=======================================================
 
-cd frontend
-npm install
-npm run start
+Step 1. Open a SECOND new Terminal inside the 'gigshield' folder.
+Step 2. Setup and run the app:
+   > cd frontend
+   > npm install
+   > npm run start
 
-3. A large QR code will appear in your terminal.
- - Press "a" on your keyboard if you have an Android emulator open.
- - Press "w" to view it in a web browser.
- - OR open the "Expo Go" app on your physical smartphone and scan the QR code to run it directly on your phone!
+Step 3. A QR code will appear in your terminal. You can:
+   - Press "a" on your keyboard to open in Android Emulator
+   - Press "w" to view in your Web Browser
+   - Download the 'Expo Go' app on your real phone and scan the QR code!
 
--------------------------------------------------------
-TESTING DATA:
-If you need to log in to the app, the backend automatically creates these demo accounts for you on your first run:
-- Worker Demo: Phone = 9876543210 | Password = ravi1234
-- Admin Demo: Phone = 0000000000 | Password = admin123
+
+=======================================================
+[ DEMO LOGIN CREDENTIALS ]
+=======================================================
+On first start, the database securely auto-seeds test accounts for you.
+
+Worker Account:
+   Phone: 9876543210
+   Password: ravi1234
+
+Admin Account:
+   Phone: 0000000000
+   Password: admin123
