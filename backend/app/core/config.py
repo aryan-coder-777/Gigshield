@@ -52,7 +52,6 @@ class Settings(BaseSettings):
         "http://localhost:19006",
         "http://127.0.0.1:19006",
         "http://10.0.2.2:8001",
-        "*",
     ]
 
     class Config:
