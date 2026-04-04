@@ -6,11 +6,23 @@ This project consists of two parts running simultaneously:
 1. Python Backend (FastAPI API server)
 2. React Native Frontend (Expo Mobile App)
 
-You will need to open TWO separate terminal windows.
+=======================================================
+[ OPTION A: 1-CLICK LAUNCH (WINDOWS ONLY) ]
+=======================================================
+If you are on Windows, you can simply double-click the `START_GIGSHIELD.bat` file located in this folder.
+It will automatically open the two necessary terminal windows, install all requirements, and start the system effortlessly.
+
+*If you are on a Mac/Linux, or if the batch script fails, follow Option B.*
+
 
 =======================================================
-[ TERMINAL 1: START THE BACKEND API ]
+[ OPTION B: MANUAL LAUNCH (ALL SYSTEMS) ]
 =======================================================
+You will need to open TWO separate terminal windows.
+
+-------------------------------------------------------
+TERMINAL 1: START THE BACKEND API
+-------------------------------------------------------
 
 Step 1. Open your first Terminal inside the 'gigshield' folder.
 Step 2. Navigate into the backend folder:
@@ -33,9 +45,9 @@ Step 3. Run the setup and start commands below based on your OS:
 ( SUCCESS: Keep this terminal open! Your API is now live at http://localhost:8001 )
 
 
-=======================================================
-[ TERMINAL 2: START THE FRONTEND APP ]
-=======================================================
+-------------------------------------------------------
+TERMINAL 2: START THE FRONTEND APP
+-------------------------------------------------------
 
 Step 1. Open a SECOND new Terminal inside the 'gigshield' folder.
 Step 2. Setup and run the app:
