@@ -1,0 +1,10 @@
+backend/
+.git/
+.vscode/
+node_modules/
+.expo/
+*.db
+*.log
+venv/
+__pycache__/
+.DS_Store

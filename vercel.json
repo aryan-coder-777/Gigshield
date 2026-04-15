@@ -1,6 +1,13 @@
 {
   "buildCommand": "cd frontend && npm install && npm run build:web",
   "outputDirectory": "frontend/dist",
-  "installCommand": "npm install"
+  "installCommand": "cd frontend && npm install",
+  "env": {},
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
 }
 
