@@ -49,6 +49,14 @@ export default function LoginScreen() {
         workerProfile = { id: worker_id, name, phone, role, onboarding_complete, zones: [], zone_risk_score: 0 };
       }
       await setAuth(access_token, workerProfile);
+      
+      // Navigate to the appropriate app after successful login
+      // Use reset instead of navigate to avoid navigation history conflicts
+      if (workerProfile.role === 'admin') {
+        navigation.reset({ index: 0, routes: [{ name: 'AdminApp' }] });
+      } else {
+        navigation.reset({ index: 0, routes: [{ name: 'WorkerApp' }] });
+      }
     } catch (err: any) {
       const isNetworkError = err.message === 'Network Error' || err.code === 'ECONNABORTED';
       const msg = isNetworkError
