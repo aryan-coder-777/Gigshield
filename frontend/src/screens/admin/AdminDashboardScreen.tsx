@@ -104,7 +104,7 @@ export default function AdminDashboardScreen({ navigation }: any) {
           <Text style={styles.title}>GigShield HQ</Text>
         </View>
         <TouchableOpacity
-          onPress={async () => { await logout(); navigation.reset({ index: 0, routes: [{ name: 'Auth' }] }); }}
+          onPress={async () => { await logout(); }}
           style={styles.logoutBtn}
         >
           <Ionicons name="log-out-outline" size={20} color={Colors.textMuted} />

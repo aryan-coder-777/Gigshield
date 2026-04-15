@@ -68,8 +68,6 @@ function AppNavigator() {
           <Stack.Screen name="WorkerApp" component={WorkerTabNavigator} />
         </Stack.Group>
       )}
-      {/* Shared routes accessible from both */}
-      <Stack.Screen name="Auth" component={SplashScreen} />
     </Stack.Navigator>
   );
 }
