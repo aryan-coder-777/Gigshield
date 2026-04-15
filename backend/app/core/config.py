@@ -46,15 +46,9 @@ class Settings(BaseSettings):
     TRIGGER_POLL_INTERVAL: int = 900  # 15 minutes
 
     # ── CORS ──────────────────────────────────────────────────────────────────
-    ALLOWED_ORIGINS: list[str] = [
-        "http://localhost:8081",
-        "http://127.0.0.1:8081",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:19006",
-        "http://127.0.0.1:19006",
-        "http://10.0.2.2:8001",
-    ]
+    # For production: allow all origins (Vercel frontend needs to reach Render backend)
+    # For development: restrict to localhost
+    ALLOWED_ORIGINS: list[str] = ["*"]
 
     class Config:
         env_file = ".env"
