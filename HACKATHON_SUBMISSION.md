@@ -1,14 +1,15 @@
 # 🚀 COMPLETE DEPLOYMENT GUIDE FOR HACKATHON SUBMISSION
 
-## Your Live URLs (For Judges)
+## Your Link For Judges (JUST 1 LINK NEEDED!)
 
-After following all steps below, you'll have:
+After following all steps below, judges only need:
 
 ```
-Frontend:  https://gigshield-hoef.vercel.app
-Backend:   https://gigshield-backend-xxxx.onrender.com  (will be provided)
-GitHub:    https://github.com/aryan-coder-777/Gigshield
+🔗 https://gigshield-hoef.vercel.app
 ```
+
+The frontend automatically connects to the backend via environment variables.
+(Optional: You can also share GitHub repo for code review)
 
 ---
 
@@ -86,19 +87,20 @@ https://gigshield-backend-xxxx.onrender.com
 
 ## STEP 4: SUBMIT TO HACKATHON 🎯
 
-Send judges these 3 links:
+Send judges **JUST THIS LINK:**
 
 ```
-📱 Live Web App:
-https://gigshield-hoef.vercel.app
-
-💻 GitHub Repository:
-https://github.com/aryan-coder-777/Gigshield
-
-📋 Test Credentials:
-Phone: 9876543210
-Password: ravi1234
+🔗 https://gigshield-hoef.vercel.app
 ```
+
+**Test Credentials (if needed):**
+
+- Phone: `9876543210`
+- Password: `ravi1234`
+
+**Optional - Code Review:**
+
+- GitHub: https://github.com/aryan-coder-777/Gigshield
 
 ---
 
