@@ -6,7 +6,9 @@
     "start": "expo start -c --lan",
     "android": "expo start --android -c --lan",
     "ios": "expo start --ios -c --lan",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build:web": "expo export --platform web",
+    "build": "npm run build:web"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
