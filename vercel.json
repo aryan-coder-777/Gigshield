@@ -2,12 +2,9 @@
   "buildCommand": "cd frontend && npm install && npm run build:web",
   "outputDirectory": "frontend/dist",
   "installCommand": "cd frontend && npm install",
-  "env": {},
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/index.html"
-    }
-  ]
+  "framework": "expo",
+  "env": {
+    "REACT_APP_API_BASE_URL": "http://localhost:8001"
+  }
 }
 
