@@ -3,12 +3,6 @@
   "version": "1.0.0",
   "description": "GigShield - AI-Powered Parametric Insurance for Gig Workers",
   "private": true,
-  "scripts": {
-    "install:frontend": "cd frontend && npm install",
-    "build": "cd frontend && npm run build:web",
-    "start:frontend": "cd frontend && npm start",
-    "start:backend": "cd backend && python -m venv venv && venv/Scripts/activate && pip install -r requirements.txt && uvicorn app.main:app --reload --host 0.0.0.0 --port 8001"
-  },
   "engines": {
     "node": "24.x"
   }
