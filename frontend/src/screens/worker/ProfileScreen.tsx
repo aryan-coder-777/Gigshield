@@ -21,7 +21,6 @@ export default function ProfileScreen({ navigation }: any) {
   const confirmLogout = async () => {
     setLogoutConfirmVisible(false);
     await logout();
-    navigation.reset({ index: 0, routes: [{ name: 'Auth' }] });
     toast.success('Signed out successfully');
   };
 
