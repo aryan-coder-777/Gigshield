@@ -83,16 +83,18 @@ eas submit --platform android --latest
 ## 📋 FILES CREATED/MODIFIED
 
 ✅ **Already Created:**
+
 - `frontend/eas.json` - EAS build config
 - `frontend/.easignore` - Files to exclude from build
 - `frontend/.env.production` - Production environment variables
 - `frontend/SETUP_EAS.bat` - Automated setup script (Windows)
-- `DEPLOYMENT_GUIDE.md` - Comprehensive guide (this file)
 
 ✅ **Already Modified:**
+
 - `frontend/app.json` - Added package name, bundle ID, owner
 
 ⚠️ **ACTION REQUIRED:**
+
 - Update `frontend/app.json` line 11: Change `"owner": "YOUR_EXPO_USERNAME"` to your actual Expo username
 - Get `gigshield-play-account.json` from Google Play Console and save to `frontend/` folder
 
@@ -101,12 +103,14 @@ eas submit --platform android --latest
 ## 🆘 COMMON ERRORS & FIXES
 
 ### ❌ "Not logged in to EAS"
+
 ```powershell
 eas login
 # Follow browser login
 ```
 
 ### ❌ "Metro bundling failed"
+
 ```powershell
 cd frontend
 npm install --legacy-peer-deps
@@ -114,10 +118,12 @@ eas build --platform android --profile production --clear-cache
 ```
 
 ### ❌ "Build stuck at 95%"
+
 - Wait 10-15 minutes (first builds are slow)
 - Press Ctrl+C and check: `eas build --list`
 
 ### ❌ "Service account auth failed"
+
 1. Go to https://console.cloud.google.com/
 2. Find service account used by Play Console
 3. Ensure role = **Editor** (not just member)
@@ -125,11 +131,13 @@ eas build --platform android --profile production --clear-cache
 5. Try again
 
 ### ❌ "APK won't install on phone"
+
 ```
 Settings → Apps → Special app access → Install unknown apps → Enable [your browser]
 ```
 
 ### ❌ "App crashes on launch"
+
 ```powershell
 # Test locally first
 cd frontend
@@ -158,8 +166,7 @@ d:\AI Integration\gigshield\
 │   └── ...
 ├── backend/
 │   └── api/
-├── DEPLOYMENT_GUIDE.md                  ← Full guide (this file)
-├── DEPLOYMENT_CHECKLIST.md              ← Step-by-step checklist
+
 └── ...
 ```
 
@@ -168,6 +175,7 @@ d:\AI Integration\gigshield\
 ## 🔑 KEY DECISIONS ALREADY MADE
 
 **Why EAS Build?**
+
 - ✅ No Android SDK required (your constraint)
 - ✅ Avoids Metro/TypeScript issues
 - ✅ Simplest path for you
@@ -175,6 +183,7 @@ d:\AI Integration\gigshield\
 - ✅ Built-in Play Store integration
 
 **Why Not Local Android Studio?**
+
 - ❌ 15GB disk space
 - ❌ 45-90 minute setup
 - ❌ Windows PATH issues
@@ -182,6 +191,7 @@ d:\AI Integration\gigshield\
 - ❌ You explicitly said "would cause issues"
 
 **Why Not Bare React Native?**
+
 - ❌ Still requires Android SDK
 - ❌ You lose Expo benefits
 - ❌ More complex
@@ -192,6 +202,7 @@ d:\AI Integration\gigshield\
 ## 📱 VERSION NUMBERS TO KNOW
 
 Your Current Setup:
+
 ```
 React Native:       0.73.6 ✅
 Expo SDK:           54.0.33 ✅
@@ -205,6 +216,7 @@ Minimum Android:    Android 6.0 (minSdkVersion: 23)
 ## ✅ PRE-FLIGHT CHECKLIST
 
 Before `eas build`:
+
 - [ ] `app.json` has correct `"owner": "your_username"`
 - [ ] `app.json` has correct `"package": "com.gigshield.app"`
 - [ ] `frontend/src/` has no TypeScript errors
@@ -213,12 +225,14 @@ Before `eas build`:
 - [ ] Internet connection active
 
 Before `eas submit`:
+
 - [ ] Production build completed (`eas build --profile production`)
 - [ ] `gigshield-play-account.json` in `frontend/` folder
 - [ ] Service account has **Editor** role in Google Cloud
 - [ ] Tested APK works on actual device
 
 Before Play Store release:
+
 - [ ] Build appears in "Internal testing" in Play Console
 - [ ] Tested for 24+ hours without crashes
 - [ ] App store listing filled: privacy policy, ratings, etc.
@@ -227,15 +241,15 @@ Before Play Store release:
 
 ## 📊 COST BREAKDOWN
 
-| Item | Cost | Notes |
-|------|------|-------|
-| Expo Free Tier | $0 | 1 free build/month |
-| Pay-as-you-go builds | $0.50-2 each | For more than 1/month |
-| Play Store account | $25 | One-time, never again |
-| Custom domain | $0-15/yr | Optional, for branding |
-| **Minimum first year** | **$25** | Just Play Store account |
-| **If 10 builds/month** | **$125** | Play Store + builds |
-| **If 50 builds/month** | **$125** | Play Store + priority plan ($99) |
+| Item                   | Cost         | Notes                            |
+| ---------------------- | ------------ | -------------------------------- |
+| Expo Free Tier         | $0           | 1 free build/month               |
+| Pay-as-you-go builds   | $0.50-2 each | For more than 1/month            |
+| Play Store account     | $25          | One-time, never again            |
+| Custom domain          | $0-15/yr     | Optional, for branding           |
+| **Minimum first year** | **$25**      | Just Play Store account          |
+| **If 10 builds/month** | **$125**     | Play Store + builds              |
+| **If 50 builds/month** | **$125**     | Play Store + priority plan ($99) |
 
 ---
 
@@ -252,6 +266,7 @@ Before Play Store release:
 ## 📞 IF SOMETHING FAILS
 
 **Step 1: Check the exact error**
+
 ```powershell
 # Capture full output
 eas build --platform android --profile production 2>&1 | Tee-Object build-error.log
@@ -262,10 +277,12 @@ eas build --list
 ```
 
 **Step 2: Search error message**
+
 - https://docs.expo.dev/build/troubleshooting/
 - https://github.com/expo/eas-cli/issues
 
 **Step 3: Common fixes**
+
 - Clear cache: `eas build --clear-cache --platform android`
 - Reinstall deps: `rm -r node_modules && npm install`
 - Logout/login: `eas logout && eas login`
@@ -274,16 +291,17 @@ eas build --list
 
 ## ⏱️ TIMELINE ESTIMATE
 
-| Task | Duration | Notes |
-|------|----------|-------|
-| Setup tools & accounts | 15-20 min | One-time |
-| First test build | 15-20 min | App testing on device |
-| Production build | 15-20 min | AAB for store |
-| Play Store setup | 10-15 min | Service account + app listing |
-| Submit & review | 2-4 hours | Google's review process |
-| **Total to Live** | **~3-4 hours** | **+ Google review time** |
+| Task                   | Duration       | Notes                         |
+| ---------------------- | -------------- | ----------------------------- |
+| Setup tools & accounts | 15-20 min      | One-time                      |
+| First test build       | 15-20 min      | App testing on device         |
+| Production build       | 15-20 min      | AAB for store                 |
+| Play Store setup       | 10-15 min      | Service account + app listing |
+| Submit & review        | 2-4 hours      | Google's review process       |
+| **Total to Live**      | **~3-4 hours** | **+ Google review time**      |
 
 **Compare:**
+
 - Local Android SDK setup: 2-5+ hours (plus debugging)
 - EAS Build setup: 1.5 hours to Play Store
 
@@ -292,6 +310,7 @@ eas build --list
 ## ✨ YOU'RE READY!
 
 **Next steps:**
+
 1. Update `app.json` with your Expo username
 2. Run: `eas build --platform android --profile preview`
 3. Test on device
@@ -300,7 +319,7 @@ eas build --list
 6. Approve in Play Console
 7. **🎉 Live on Play Store!**
 
-See `DEPLOYMENT_CHECKLIST.md` for detailed step-by-step instructions.
+Refer to the EAS CLI documentation at https://docs.expo.dev/eas/ for detailed instructions.
 
 ---
 

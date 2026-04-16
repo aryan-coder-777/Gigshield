@@ -37,15 +37,15 @@ const getBaseUrl = () => {
   const inferredHost = inferHost();
   if (inferredHost) {
     if (Platform.OS === 'android' && (inferredHost === 'localhost' || inferredHost === '127.0.0.1')) {
-      return 'http://10.0.2.2:8002';
+      return 'http://10.0.2.2:8001';
     }
-    return `http://${inferredHost}:8002`;
+    return `http://${inferredHost}:8001`;
   }
 
   if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:8002';
+    return 'http://10.0.2.2:8001';
   }
-  return 'http://127.0.0.1:8002';
+  return 'http://127.0.0.1:8001';
 };
 
 export const BASE_URL = getBaseUrl();

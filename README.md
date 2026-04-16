@@ -1,115 +1,187 @@
 # GigShield
 
-**AI-Powered Parametric Income Insurance for India's Gig Economy**
+Parametric income insurance for gig workers in India. Automatically detects income disruptions due to weather, platform outages, or local events, and processes instant payouts directly to worker UPI accounts.
 
-GigShield is an innovative, full-stack application designed to provide micro-insurance to gig workers (delivery partners, drivers, etc.) facing daily income disruptions due to severe weather, platform outages, or localized riots. The system detects disruptions automatically via external API triggers (weather, platform status) and instantly initiates payouts directly to the worker's UPI account, effectively eliminating the hassle of manual claims.
+## Features
 
----
+**Worker App**
 
-## 🌟 Key Features
+- Onboarding wizard to set work zones, platform, and risk profile
+- Real-time dashboard showing active policies and earnings protection status
+- Policy management with Basic and Premium coverage options
+- Instant claim status and payout history tracking
+- Live weather alerts and disruption detection
 
-### Worker App (Frontend)
-Built with **React Native (Expo)** to provide a premium, modern, and trustworthy user experience.
-- **Dynamic Onboarding:** Beautiful onboarding wizard ("Choose Your Gig") capturing work zones, platform details, and risk profiles.
-- **Premium UX Design:** Clean "insurance-tier" aesthetic featuring glassmorphism, dynamic typography (Inter/Outfit), and tailored dark modes.
-- **Live Dashboard:** Real-time disruption monitoring, earnings protection status, and active weather alerts.
-- **Policy Management:** Seamless ways to view, activate, and upgrade insurance plans (Basic vs. Premium Coverages).
-- **Instant Claims & Payouts Tracking:** View real-time claim status and payout receipts powered by a dedicated robust UI.
-- **Custom Branded Components:** Includes specialized elements like `ConfirmModal`, `Toast` notifications, and beautiful chart/statistics components.
+**Backend Platform**
 
-### Core Platform (Backend)
-Robust backend API built using **FastAPI (Python)**.
-- **Automated Parametric Triggers:** Continuously polls triggers via background schedulers (`APScheduler`) to detect anomalous events (heavy rain, heatwaves, platform outages).
-- **AI Fraud Detection:** Incorporates an advanced AI service to rate incoming claims against historical weather data, GPS integrity, and worker behavioral signals.
-- **Instant Payout Integrations:** Architecture to process real-time payouts via UPI and services like Razorpay/Stripe securely.
-- **Structured Logging:** Advanced hierarchical HTTP and action tracking logs for deep observability and compliance.
-- **Admin Insights & Monitoring:** REST endpoints exposing platform insights and overall risk exposure for underwriters.
+- Automated parametric trigger detection using background scheduler
+- AI-powered fraud detection using historical weather data and worker behavioral signals
+- Real-time payout processing via UPI
+- Admin dashboard for risk monitoring and insights
+- Structured logging for observability and compliance
 
----
+## Tech Stack
 
-## 🏗️ Technology Stack
+Frontend: React Native, Expo, React Navigation, Zustand, TanStack Query
 
-**Frontend Frameworks & Libraries**
-- React Native & Expo
-- React Navigation (Bottom Tabs & Native Stack)
-- Zustand (State Management)
-- Tanstack React Query (Data Fetching / Caching)
-- Expo Vector Icons, Safe Area Context, Haptics, and Linear Gradient for rich aesthetics
+Backend: FastAPI, SQLAlchemy, APScheduler, Scikit-Learn
 
-**Backend Frameworks & Libraries**
-- FastAPI & Uvicorn
-- SQLAlchemy (Async Postgres & SQLite Support)
-- APScheduler (Background trigger monitoring)
-- Scikit-Learn/AI Models (`models_pkl/`) for fraud detection
+Database: SQLite (development), PostgreSQL (production)
 
----
+## Getting Started
 
-## 🚀 Getting Started
+### Quick Start (Windows)
 
-### Option A: 1-Click Launch (Windows Only)
-Simply double click the `START_GIGSHIELD.bat` file in the root directory. It will automatically launch two terminal windows, install backend/frontend dependencies, and start both the API and the Mobile App simultaneously!
+Double-click `START_GIGSHIELD.bat` to automatically set up and launch both backend and frontend.
 
-### Option B: Manual Setup
+### Manual Setup
 
-#### 1. Backend Setup
+**Backend**
 
 ```bash
 cd backend
 python -m venv venv
-venv\Scripts\activate      # Windows
+venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8001
 ```
-*Note: The backend runs an automatic database initialization script that creates the tables and populates demo data (Ravi/Admin profiles) using `app/main.py:seed_demo_data()`.*
 
-**Demo Credentials (automatically seeded):**
-- Worker: `phone: 9876543210`, `pass: ravi1234`
-- Admin: `phone: 0000000000`, `pass: admin123`
+Demo credentials:
 
-#### 2. Frontend Setup
+- Worker: `9876543210` / `ravi1234`
+- Admin: `0000000000` / `admin123`
+
+**Frontend**
 
 ```bash
 cd frontend
 npm install
 npm run start
 ```
-Use the Expo Go app on your physical device, or run it on an Android/iOS emulator.
 
----
+Scan the QR code with Expo Go app on your device or use an emulator.
 
-## 📂 Project Structure
+## Project Structure
 
-```text
+```
 gigshield/
-│
 ├── backend/
 │   ├── app/
-│   │   ├── api/               # FastAPI route handlers (auth, claims, policies, triggers)
-│   │   ├── core/              # Config, database setup, and structured loggers
-│   │   ├── models/            # SQLAlchemy Database Models
-│   │   ├── schemas/           # Pydantic schemas for request/response validation
-│   │   └── services/          # Business logic, trigger monitor, AI fraud logic
-│   ├── models_pkl/            # Cached AI/ML models 
-│   ├── requirements.txt
+│   │   ├── api/          # API endpoints
+│   │   ├── core/         # Configuration and database setup
+│   │   ├── models/       # Database models
+│   │   ├── schemas/      # Request/response validation
+│   │   └── services/     # Business logic
+│   └── requirements.txt
 │
 └── frontend/
     ├── src/
-    │   ├── navigation/        # React Navigation setups (WorkerTabNavigator, etc.)
-    │   ├── screens/           # Separate UI screens (Auth, Dashboard, Policy, Claims)
-    │   ├── components/        # Reusable custom UI components (ConfirmModal, Toast)
-    │   ├── store/             # Zustand state stores (authStore, etc.)
-    │   └── lib/               # API clients (Axios)
-    ├── App.tsx                # Entry point
-    └── package.json           # React Native/Expo dependencies
+    │   ├── screens/      # UI screens
+    │   ├── components/   # Reusable components
+    │   ├── navigation/   # React Navigation setup
+    │   └── store/        # State management
+    └── package.json
 ```
 
----
+## How It Works
 
-## 🤝 Roadmap / Enhancements Made
-This project has recently undergone significant tech audits focusing on:
-- 📈 **Performance & Logging:** Full implementation of structured logging.
-- 🎨 **GigGuard Design System:** Migration to a modern, dynamic, and animated design system for all consumer-facing screens.
-- 🛡️ **Policy Engine Polish:** Complete end-to-end functionality for the Ravi persona to buy coverage, see active triggers, and experience fully automated parametric payouts. 
+1. Worker signs up and activates a policy for their work zone
+2. System monitors weather APIs and platform status endpoints
+3. When a disruption is detected, a parametric trigger is activated
+4. Eligible workers receive automatic payouts to their UPI account
+5. Workers can track payout history in their dashboard
 
----
-*Built to bring financial resilience to the backbone of the gig economy.*
+## Architecture
+
+The system uses parametric insurance - meaning payouts are triggered by external events (weather, platform status) rather than manual claims. No claim validation process needed, resulting in instant payouts.
+
+**Trigger Types**
+
+- Heavy rainfall alerts
+- Temperature extremes
+- Platform outages
+- Local traffic restrictions
+
+## Development
+
+```bash
+# Run backend tests
+cd backend
+pytest
+
+# Run backend with hot reload
+uvicorn app.main:app --reload
+
+# Run frontend on specific platform
+cd frontend
+expo start --android
+expo start --ios
+```
+
+## Deployment
+
+### Frontend (Vercel)
+
+1. Push code to GitHub
+2. Go to https://vercel.com/dashboard and import the repository
+3. Set environment variable:
+   - `EXPO_PUBLIC_API_URL=https://your-render-backend-url.onrender.com`
+4. Deploy
+
+### Backend (Render)
+
+1. Push code to GitHub
+2. Go to https://dashboard.render.com and create a new Web Service
+3. Connect your GitHub repository
+4. Set environment variables in Render dashboard:
+   - `DATABASE_URL=postgresql://user:password@host/gigshield`
+   - `DEBUG=False`
+   - `SECRET_KEY=your-production-secret-key`
+   - Update `ALLOWED_ORIGINS` in backend config to include Vercel URL
+5. Deploy
+
+### Environment Variables
+
+**Local Development**
+
+Copy `.env.example` to `.env` and fill in your API keys:
+
+```bash
+cp .env.example .env
+# Edit .env with your Gemini API key, database URL, etc.
+```
+
+**Production**
+
+Set environment variables directly in your cloud provider dashboard:
+
+- **Vercel**: Set `EXPO_PUBLIC_API_URL` to your Render backend URL
+- **Render**: Set `DATABASE_URL`, `SECRET_KEY`, `DEBUG=False`, and other vars from `.env.example`
+
+Never commit `.env` files to git - keep API keys private.
+
+## Troubleshooting
+
+**Issue: "Login Failed: Cannot connect to the server"**
+
+This happens when the frontend cannot reach the backend API. Check:
+
+1. Backend is running on correct port (8001 local, or check Render URL)
+2. Frontend has correct backend URL in environment variables:
+   - Local: Check `frontend/src/lib/api.ts` default URLs
+   - Production: Set `EXPO_PUBLIC_API_URL` in Vercel environment variables
+3. CORS is configured correctly in backend (`backend/app/core/config.py`)
+4. Network/firewall allows the connection
+
+**Prevention Checklist Before Deploying:**
+
+- [ ] Backend successfully starts and logs are clean
+- [ ] Frontend environment variables point to correct backend URL
+- [ ] Test login locally with demo credentials before pushing to production
+- [ ] Verify Render backend URL is accessible (curl or browser test)
+- [ ] Vercel build completes without errors
+- [ ] Database migrations run successfully on Render
+
+## License
+
+MIT
