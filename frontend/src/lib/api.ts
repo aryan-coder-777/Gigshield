@@ -2,6 +2,14 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeModules, Platform } from 'react-native';
 
+// In-memory token cache — avoids the AsyncStorage read latency on the very
+// first API call right after login (race condition that caused 401 errors).
+let _memoryToken: string | null = null;
+
+export const setMemoryToken = (token: string | null) => {
+  _memoryToken = token;
+};
+
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL?.trim();
 
 const inferHost = () => {
@@ -29,29 +37,31 @@ const getBaseUrl = () => {
   const inferredHost = inferHost();
   if (inferredHost) {
     if (Platform.OS === 'android' && (inferredHost === 'localhost' || inferredHost === '127.0.0.1')) {
-      return 'http://10.0.2.2:8001';
+      return 'http://10.0.2.2:8002';
     }
-    return `http://${inferredHost}:8001`;
+    return `http://${inferredHost}:8002`;
   }
 
   if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:8001';
+    return 'http://10.0.2.2:8002';
   }
-  return 'http://127.0.0.1:8001';
+  return 'http://127.0.0.1:8002';
 };
 
 export const BASE_URL = getBaseUrl();
 
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 4000,
+  timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
 });
 
-// Attach JWT token to every request
+// Attach JWT token to every request.
+
+// Use the in-memory cache first (instant), fall back to AsyncStorage (async).
 api.interceptors.request.use(async (config) => {
   try {
-    const token = await AsyncStorage.getItem('access_token');
+    const token = _memoryToken ?? await AsyncStorage.getItem('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -59,11 +69,12 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Handle 401 by clearing token
+// Handle 401 by clearing token (both memory and storage)
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
+      _memoryToken = null;
       await AsyncStorage.removeItem('access_token');
       await AsyncStorage.removeItem('worker');
     }
@@ -106,6 +117,13 @@ export const claimsAPI = {
 
 export const workerAPI = {
   getDashboardSummary: () => api.get('/api/v1/worker/dashboard-summary'),
+};
+
+// ─── Chat AI ─────────────────────────────────────────────────────────────────
+
+export const chatAPI = {
+  sendMessage: (message: string, deepResearch: boolean = false) =>
+    api.post('/api/chat/', { message, deep_research: deepResearch }),
 };
 
 // ─── Triggers ────────────────────────────────────────────────────────────────

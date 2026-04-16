@@ -76,31 +76,28 @@ export default function AlertsScreen({ navigation }: any) {
     };
   }, []);
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          if (!cancelled) setLocStatus('denied');
-          return;
-        }
-        const pos = await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.Balanced,
-        });
-        if (!cancelled) {
-          setUserLat(pos.coords.latitude);
-          setUserLon(pos.coords.longitude);
-          setLocStatus('granted');
-        }
-      } catch {
-        if (!cancelled) setLocStatus('error');
+  const requestLocation = useCallback(async () => {
+    try {
+      setLocStatus('idle');
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setLocStatus('denied');
+        return;
       }
-    })();
-    return () => {
-      cancelled = true;
-    };
+      const pos = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+      setUserLat(pos.coords.latitude);
+      setUserLon(pos.coords.longitude);
+      setLocStatus('granted');
+    } catch {
+      setLocStatus('error');
+    }
   }, []);
+
+  useEffect(() => {
+    requestLocation();
+  }, [requestLocation]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -187,15 +184,27 @@ export default function AlertsScreen({ navigation }: any) {
                 size={18}
                 color={locStatus === 'granted' ? Colors.successLight : Colors.textMuted}
               />
-              <Text style={styles.locText}>
-                {locStatus === 'granted' && userLat != null
-                  ? `GPS fix acquired (${userLat.toFixed(4)}, ${userLon!.toFixed(4)})`
-                  : locStatus === 'denied'
-                    ? 'Location denied — enable to validate zone on simulate'
-                    : locStatus === 'error'
-                      ? 'Could not read GPS'
-                      : 'Requesting location…'}
-              </Text>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={styles.locText}>
+                  {locStatus === 'granted' && userLat != null
+                    ? `GPS fix acquired (${userLat.toFixed(4)}, ${userLon!.toFixed(4)})`
+                    : locStatus === 'denied'
+                      ? 'Location denied. Check browser settings.'
+                      : locStatus === 'error'
+                        ? 'Could not read GPS'
+                        : 'Requesting location…'}
+                </Text>
+                {(locStatus === 'denied' || locStatus === 'error') && (
+                  <>
+                    <TouchableOpacity onPress={requestLocation} style={{ marginLeft: 10, backgroundColor: Colors.indigo + '40', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 }}>
+                      <Text style={{ fontSize: 10, color: Colors.indigoLight, fontWeight: '700' }}>Retry</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { setUserLat(12.9249); setUserLon(80.1000); setLocStatus('granted'); }} style={{ marginLeft: 6, backgroundColor: Colors.success + '40', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 }}>
+                      <Text style={{ fontSize: 10, color: Colors.successLight, fontWeight: '700' }}>Mock GPS</Text>
+                    </TouchableOpacity>
+                  </>
+                )}
+              </View>
             </View>
             <View style={styles.gpsToggleRow}>
               <View style={styles.gpsToggleInfo}>
@@ -341,7 +350,7 @@ export default function AlertsScreen({ navigation }: any) {
                   <TouchableOpacity
                     key={type}
                     onPress={() => simulateTrigger(type)}
-                    style={[styles.demoTriggerBtn, simulating === type && styles.demoTriggerBtnActive]}
+                    style={[styles.demoTriggerBtn, simulating === type  ? styles.demoTriggerBtnActive : null]}
                     disabled={!!simulating}
                   >
                     <Text style={styles.demoTriggerEmoji}>{conf.emoji}</Text>

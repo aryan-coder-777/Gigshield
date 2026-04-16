@@ -17,9 +17,18 @@ import { Colors } from '../../constants/Colors';
 import { GButton } from '../../components/GButton';
 import { GInput } from '../../components/GInput';
 import { GCard } from '../../components/GCard';
-import { authAPI } from '../../lib/api';
+import { authAPI, setMemoryToken } from '../../lib/api';
 import { useAuthStore } from '../../store/authStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const showAlert = (title: string, message: string, onOk?: () => void) => {
+  if (Platform.OS === 'web') {
+    window.alert(`${title}: ${message}`);
+    onOk?.();
+  } else {
+    Alert.alert(title, message, [{ text: 'OK', onPress: onOk }]);
+  }
+};
 
 const PLATFORMS = ['Amazon', 'Flipkart', 'Zepto', 'Blinkit', 'Swiggy', 'Zomato', 'Dunzo', 'Other'];
 const CITIES = ['Chennai', 'Mumbai', 'Bengaluru', 'Delhi', 'Hyderabad'];
@@ -102,8 +111,17 @@ export default function RegisterScreen() {
 
       const { access_token, worker_id, name: wName, role, onboarding_complete } = res.data;
 
+      // Set the token in memory + storage BEFORE calling KYC so the
+      // request interceptor can attach the Authorization header.
+      setMemoryToken(access_token);
+      await AsyncStorage.setItem('access_token', access_token);
+
       // Update KYC
-      await authAPI.updateKYC({ aadhaar_last4: aadhaar });
+      try {
+        await authAPI.updateKYC({ aadhaar_last4: aadhaar });
+      } catch {
+        // KYC update is non-critical; continue with registration
+      }
 
       const workerObj = {
         id: worker_id,
@@ -120,10 +138,18 @@ export default function RegisterScreen() {
         role,
       };
 
-      navigation.navigate('RoleSelection', { access_token, workerObj });
+      // Show success confirmation, then navigate to role selection
+      showAlert(
+        '🎉 Account Created!',
+        `Welcome to GigShield, ${wName || name}! Your account has been created and verified successfully.`,
+        () => navigation.navigate('RoleSelection', { access_token, workerObj }),
+      );
     } catch (err: any) {
-      const msg = err.response?.data?.detail || 'Registration failed. Please try again.';
-      Alert.alert('Error', msg);
+      const isNetworkError = err.message === 'Network Error' || err.code === 'ECONNABORTED';
+      const msg = isNetworkError
+        ? 'Cannot connect to the server. Please ensure the Backend API is running!'
+        : (err.response?.data?.detail || 'Registration failed. Please try again.');
+      showAlert('Registration Error', msg);
     } finally {
       setLoading(false);
     }
@@ -133,14 +159,14 @@ export default function RegisterScreen() {
     <View style={styles.stepIndicator}>
       {[1, 2, 3].map((s) => (
         <View key={s} style={styles.stepRow}>
-          <View style={[styles.stepDot, step >= s && styles.stepDotActive]}>
+          <View style={[styles.stepDot, step >= s  ? styles.stepDotActive : null]}>
             {step > s ? (
               <Ionicons name="checkmark" size={12} color={Colors.white} />
             ) : (
-              <Text style={[styles.stepNum, step >= s && styles.stepNumActive]}>{s}</Text>
+              <Text style={[styles.stepNum, step >= s  ? styles.stepNumActive : null]}>{s}</Text>
             )}
           </View>
-          {s < 3 && <View style={[styles.stepLine, step > s && styles.stepLineActive]} />}
+          {s < 3 && <View style={[styles.stepLine, step > s  ? styles.stepLineActive : null]} />}
         </View>
       ))}
     </View>
@@ -205,8 +231,8 @@ export default function RegisterScreen() {
                 <View style={styles.chipRow}>
                   {PLATFORMS.map((p) => (
                     <TouchableOpacity key={p} onPress={() => setPlatform(p)}
-                      style={[styles.chip, platform === p && styles.chipActive]}>
-                      <Text style={[styles.chipText, platform === p && styles.chipTextActive]}>{p}</Text>
+                      style={[styles.chip, platform === p  ? styles.chipActive : null]}>
+                      <Text style={[styles.chipText, platform === p  ? styles.chipTextActive : null]}>{p}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -220,8 +246,8 @@ export default function RegisterScreen() {
                 <View style={styles.chipRow}>
                   {CITIES.map((c) => (
                     <TouchableOpacity key={c} onPress={() => { setCity(c); setSelectedZones([]); }}
-                      style={[styles.chip, city === c && styles.chipActive]}>
-                      <Text style={[styles.chipText, city === c && styles.chipTextActive]}>{c}</Text>
+                      style={[styles.chip, city === c  ? styles.chipActive : null]}>
+                      <Text style={[styles.chipText, city === c  ? styles.chipTextActive : null]}>{c}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -233,8 +259,8 @@ export default function RegisterScreen() {
                 <View style={styles.chipRow}>
                   {(ZONES_BY_CITY[city] || []).map((z) => (
                     <TouchableOpacity key={z} onPress={() => toggleZone(z)}
-                      style={[styles.chip, selectedZones.includes(z) && styles.chipSuccessActive]}>
-                      <Text style={[styles.chipText, selectedZones.includes(z) && styles.chipTextSuccess]}>{z}</Text>
+                      style={[styles.chip, selectedZones.includes(z)  ? styles.chipSuccessActive : null]}>
+                      <Text style={[styles.chipText, selectedZones.includes(z)  ? styles.chipTextSuccess : null]}>{z}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>

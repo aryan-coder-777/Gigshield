@@ -1,6 +1,7 @@
 """
 Insurer-facing predictive analytics: next-week disruption / claim likelihood (mock + historical signals).
 """
+import random
 from datetime import datetime, timedelta
 from typing import Any
 

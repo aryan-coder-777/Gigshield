@@ -52,7 +52,7 @@ export default function ZoneCoverageMap({
       </Text>
       <ScrollView style={styles.webScroll} nestedScrollEnabled>
         {rows.map((z) => (
-          <View key={z.name} style={[styles.webRow, z.isHl && styles.webRowHl]}>
+          <View key={z.name} style={[styles.webRow, z.isHl  ? styles.webRowHl : null]}>
             <Text style={styles.webName}>{z.name}</Text>
             <Text style={styles.webMeta}>
               {z.radius_km} km radius

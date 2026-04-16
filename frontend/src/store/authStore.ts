@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setMemoryToken } from '../lib/api';
 
 interface Worker {
   id: number;
@@ -35,12 +36,14 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
 
   setAuth: async (token, worker) => {
+    setMemoryToken(token);
     await AsyncStorage.setItem('access_token', token);
     await AsyncStorage.setItem('worker', JSON.stringify(worker));
     set({ token, worker, isAuthenticated: true });
   },
 
   logout: async () => {
+    setMemoryToken(null);
     await AsyncStorage.removeItem('access_token');
     await AsyncStorage.removeItem('worker');
     set({ token: null, worker: null, isAuthenticated: false });
@@ -52,6 +55,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       const workerStr = await AsyncStorage.getItem('worker');
       if (token && workerStr) {
         const worker = JSON.parse(workerStr);
+        setMemoryToken(token);
         set({ token, worker, isAuthenticated: true });
       }
     } catch {}

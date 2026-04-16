@@ -143,83 +143,85 @@ export default function ClaimsScreen() {
         />
       )}
 
-      <Modal visible={!!selected} animationType="slide" transparent>
-        <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Claim #{selected?.id}</Text>
-              <TouchableOpacity onPress={() => setSelected(null)}>
-                <Ionicons name="close" size={24} color={Colors.textPrimary} />
-              </TouchableOpacity>
-            </View>
-            {selected && (
-              <>
-                <Text style={styles.modalRow}>Type: {selected.claim_type}</Text>
-                <Text style={styles.modalRow}>Zone: {selected.zone}</Text>
-                <Text style={styles.modalRow}>Amount: ₹{selected.payout_amount}</Text>
-                <Text style={styles.modalRow}>Status: {selected.status}</Text>
-                <Text style={styles.modalRow}>Fraud tier: {selected.fraud_tier}</Text>
-                {selected.disruption_description ? (
-                  <Text style={styles.modalDesc}>{selected.disruption_description}</Text>
-                ) : null}
-                {selected.fraud_signals && (
-                  <View style={styles.signalsContainer}>
-                    <Text style={styles.signalsTitle}>Fraud & Anomaly Analysis</Text>
-                    {Object.entries(selected.fraud_signals)
-                      .filter(([k]) => ['claims_frequency', 'zone_match', 'timing', 'account_age', 'claim_latency', 'policy_age', 'weather_history', 'gps_proximity', 'gps_integrity'].includes(k))
-                      .map(([key, value]: [string, any], idx) => {
-                        const isGood = value === 'NORMAL' || value === 'OK' || value === 'ESTABLISHED' || value === 'CONSISTENT' || value === 'WITHIN_ZONE';
-                        const isWarn = value === 'NEW_ACCOUNT' || value === 'NEW_POLICY' || value === 'WEAK' || value === 'SOFT_OUTSIDE_ZONE' || value === 'ANOMALY';
-                        const badgeColor = isGood ? Colors.success : (isWarn ? Colors.warning : Colors.danger);
-                        const displayKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                        const displayValue = String(value).replace(/_/g, ' ');
-                        return (
-                          <View key={idx} style={styles.signalRow}>
-                            <Text style={styles.signalLabel}>{displayKey}</Text>
-                            <View style={[styles.signalBadge, { backgroundColor: badgeColor + '20' }]}>
-                              <Ionicons name={isGood ? 'checkmark-circle' : isWarn ? 'warning' : 'close-circle'} size={12} color={badgeColor} style={{ marginRight: 4 }} />
-                              <Text style={[styles.signalValue, { color: badgeColor }]}>{displayValue}</Text>
+      {!!selected && (
+        <View style={[StyleSheet.absoluteFill, { zIndex: 999 }]}>
+          <View style={styles.modalBackdrop}>
+            <View style={styles.modalCard}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Claim #{selected?.id}</Text>
+                <TouchableOpacity onPress={() => setSelected(null)}>
+                  <Ionicons name="close" size={24} color={Colors.textPrimary} />
+                </TouchableOpacity>
+              </View>
+              {selected && (
+                <>
+                  <Text style={styles.modalRow}>Type: {selected.claim_type}</Text>
+                  <Text style={styles.modalRow}>Zone: {selected.zone}</Text>
+                  <Text style={styles.modalRow}>Amount: ₹{selected.payout_amount}</Text>
+                  <Text style={styles.modalRow}>Status: {selected.status}</Text>
+                  <Text style={styles.modalRow}>Fraud tier: {selected.fraud_tier}</Text>
+                  {selected.disruption_description ? (
+                    <Text style={styles.modalDesc}>{selected.disruption_description}</Text>
+                  ) : null}
+                  {selected.fraud_signals && (
+                    <View style={styles.signalsContainer}>
+                      <Text style={styles.signalsTitle}>Fraud & Anomaly Analysis</Text>
+                      {Object.entries(selected.fraud_signals)
+                        .filter(([k]) => ['claims_frequency', 'zone_match', 'timing', 'account_age', 'claim_latency', 'policy_age', 'weather_history', 'gps_proximity', 'gps_integrity'].includes(k))
+                        .map(([key, value]: [string, any], idx) => {
+                          const isGood = value === 'NORMAL' || value === 'OK' || value === 'ESTABLISHED' || value === 'CONSISTENT' || value === 'WITHIN_ZONE';
+                          const isWarn = value === 'NEW_ACCOUNT' || value === 'NEW_POLICY' || value === 'WEAK' || value === 'SOFT_OUTSIDE_ZONE' || value === 'ANOMALY';
+                          const badgeColor = isGood ? Colors.success : (isWarn ? Colors.warning : Colors.danger);
+                          const displayKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                          const displayValue = String(value).replace(/_/g, ' ');
+                          return (
+                            <View key={idx} style={styles.signalRow}>
+                              <Text style={styles.signalLabel}>{displayKey}</Text>
+                              <View style={[styles.signalBadge, { backgroundColor: badgeColor + '20' }]}>
+                                <Ionicons name={isGood ? 'checkmark-circle' : isWarn ? 'warning' : 'close-circle'} size={12} color={badgeColor} style={{ marginRight: 4 }} />
+                                <Text style={[styles.signalValue, { color: badgeColor }]}>{displayValue}</Text>
+                              </View>
                             </View>
+                          );
+                        })}
+                        {selected.fraud_signals.raw_anomaly_score !== undefined && (
+                          <View style={styles.signalRow}>
+                            <Text style={styles.signalLabel}>Raw Anomaly Score</Text>
+                            <Text style={styles.signalValueText}>{selected.fraud_signals.raw_anomaly_score}</Text>
                           </View>
-                        );
-                      })}
-                      {selected.fraud_signals.raw_anomaly_score !== undefined && (
-                        <View style={styles.signalRow}>
-                          <Text style={styles.signalLabel}>Raw Anomaly Score</Text>
-                          <Text style={styles.signalValueText}>{selected.fraud_signals.raw_anomaly_score}</Text>
-                        </View>
-                      )}
-                  </View>
-                )}
-                {canAppeal(selected) && (
-                  <>
-                    <Text style={styles.appealLabel}>Appeal note</Text>
-                    <TextInput
-                      style={styles.appealInput}
-                      placeholder="Why should we reconsider?"
-                      placeholderTextColor={Colors.textMuted}
-                      value={appealNote}
-                      onChangeText={setAppealNote}
-                      multiline
-                    />
-                    <TouchableOpacity
-                      style={styles.appealBtn}
-                      onPress={submitAppeal}
-                      disabled={appealSending}
-                    >
-                      {appealSending ? (
-                        <ActivityIndicator color="#FFF" />
-                      ) : (
-                        <Text style={styles.appealBtnText}>Submit appeal</Text>
-                      )}
-                    </TouchableOpacity>
-                  </>
-                )}
-              </>
-            )}
+                        )}
+                    </View>
+                  )}
+                  {canAppeal(selected) && (
+                    <>
+                      <Text style={styles.appealLabel}>Appeal note</Text>
+                      <TextInput
+                        style={styles.appealInput}
+                        placeholder="Why should we reconsider?"
+                        placeholderTextColor={Colors.textMuted}
+                        value={appealNote}
+                        onChangeText={setAppealNote}
+                        multiline
+                      />
+                      <TouchableOpacity
+                        style={styles.appealBtn}
+                        onPress={submitAppeal}
+                        disabled={appealSending}
+                      >
+                        {appealSending ? (
+                          <ActivityIndicator color="#FFF" />
+                        ) : (
+                          <Text style={styles.appealBtnText}>Submit appeal</Text>
+                        )}
+                      </TouchableOpacity>
+                    </>
+                  )}
+                </>
+              )}
+            </View>
           </View>
         </View>
-      </Modal>
+      )}
     </SafeAreaView>
   );
 }

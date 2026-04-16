@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     OWM_API_KEY: str = ""
     # WAQI World Air Quality Index — live AQI data (leave blank = mock)
     WAQI_TOKEN: str = ""
+    # Gemini API Key for AI Assistant (leave blank = mock bot)
+    GEMINI_API_KEY: str = ""
 
     # ── PAYMENT RAILS ─────────────────────────────────────────────────────────
     # Razorpay test keys (leave blank = mock payouts simulated locally)

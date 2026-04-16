@@ -9,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../constants/Colors';
 import { authAPI } from '../../lib/api';
+import { setMemoryToken } from '../../lib/api';
 import { useAuthStore } from '../../store/authStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -35,6 +36,10 @@ export default function LoginScreen() {
     try {
       const res = await authAPI.login(phone, password);
       const { access_token, worker_id, name, role, onboarding_complete } = res.data;
+      // Prime the in-memory token cache FIRST so subsequent API calls (dashboard
+      // data fetched immediately after navigation) are authenticated without
+      // waiting for the AsyncStorage write to complete.
+      setMemoryToken(access_token);
       await AsyncStorage.setItem('access_token', access_token);
       let workerProfile: any;
       try {
@@ -44,11 +49,6 @@ export default function LoginScreen() {
         workerProfile = { id: worker_id, name, phone, role, onboarding_complete, zones: [], zone_risk_score: 0 };
       }
       await setAuth(access_token, workerProfile);
-      if (role === 'admin') {
-        navigation.reset({ index: 0, routes: [{ name: 'AdminApp' }] });
-      } else {
-        navigation.reset({ index: 0, routes: [{ name: 'WorkerApp' }] });
-      }
     } catch (err: any) {
       const isNetworkError = err.message === 'Network Error' || err.code === 'ECONNABORTED';
       const msg = isNetworkError
@@ -134,7 +134,7 @@ export default function LoginScreen() {
 
           {/* Login button */}
           <TouchableOpacity
-            style={[styles.loginBtn, loading && styles.loginBtnDisabled]}
+            style={[styles.loginBtn, loading  ? styles.loginBtnDisabled : null]}
             onPress={handleLogin}
             disabled={loading}
             activeOpacity={0.85}

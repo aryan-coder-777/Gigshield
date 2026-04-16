@@ -6,12 +6,14 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../constants/Colors';
 import { workerAPI, claimsAPI } from '../../lib/api';
+import { AIChatModal } from '../../components/AIChatModal';
 
 export default function DashboardScreen({ navigation }: any) {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [summary, setSummary] = useState<any>(null);
   const [recentPayouts, setRecentPayouts] = useState<any[]>([]);
+  const [chatVisible, setChatVisible] = useState(false);
 
   // Animated counter for earnings
   const earningsAnim = useRef(new Animated.Value(0)).current;
@@ -249,6 +251,17 @@ export default function DashboardScreen({ navigation }: any) {
           </>
         )}
       </ScrollView>
+
+      {/* ── AI Bot FAB ── */}
+      <TouchableOpacity 
+        style={styles.fab} 
+        onPress={() => setChatVisible(true)}
+        activeOpacity={0.8}
+      >
+        <Ionicons name="sparkles" size={24} color="#FFF" />
+      </TouchableOpacity>
+
+      <AIChatModal visible={chatVisible} onClose={() => setChatVisible(false)} />
     </View>
   );
 }
@@ -398,4 +411,20 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   alertsBtnText: { flex: 1, color: '#FFF', fontSize: 14, fontWeight: '700' },
+  fab: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.orange,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: Colors.orange,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 8,
+  },
 });

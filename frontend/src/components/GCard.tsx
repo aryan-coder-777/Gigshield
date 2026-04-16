@@ -28,8 +28,8 @@ export const GCard: React.FC<GCardProps> = ({
     <View
       style={[
         styles.card,
-        { padding, shadowColor: glowColors[glow] },
-        glow !== 'none' && { borderColor: glowColors[glow] },
+        { padding, shadowColor: glowColors[glow]},
+        glow !== 'none' ? { borderColor: glowColors[glow] } : null,
         style,
       ]}
     >
@@ -56,8 +56,8 @@ export const GBadge: React.FC<GBadgeProps> = ({ label, variant = 'indigo', size 
   const { bg, text } = configs[variant] || configs.indigo;
 
   return (
-    <View style={[styles.badge, { backgroundColor: bg }, size === 'sm' && { paddingVertical: 2, paddingHorizontal: 8, borderRadius: 6 }]}>
-      <Text style={[styles.badgeText, { color: text }, size === 'sm' && { fontSize: 11 }]}>
+    <View style={[styles.badge, { backgroundColor: bg }, size === 'sm' ? { paddingVertical: 2, paddingHorizontal: 8, borderRadius: 6 } : null]}>
+      <Text style={[styles.badgeText, { color: text }, size === 'sm' ? { fontSize: 11 } : null]}>
         {label}
       </Text>
     </View>

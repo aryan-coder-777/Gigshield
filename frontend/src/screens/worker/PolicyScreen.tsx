@@ -159,8 +159,8 @@ export default function PolicyScreen() {
               key={plan.plan_type}
               style={[
                 styles.planCard,
-                isRecommended && styles.planCardRecommended,
-                isActive && styles.planCardActive,
+                isRecommended  ? styles.planCardRecommended : null,
+                isActive  ? styles.planCardActive : null,
               ]}
             >
               {isRecommended && (
@@ -215,7 +215,7 @@ export default function PolicyScreen() {
                   </View>
                 ) : (
                   <TouchableOpacity
-                    style={[styles.activateBtn, isActivating && styles.activateBtnLoading]}
+                    style={[styles.activateBtn, isActivating  ? styles.activateBtnLoading : null]}
                     onPress={() => onActivatePress(plan)}
                     disabled={!!activating}
                     activeOpacity={0.8}

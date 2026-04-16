@@ -115,8 +115,8 @@ export default function AdminDashboardScreen({ navigation }: any) {
       <View style={styles.tabBar}>
         {['overview', 'claims', 'triggers', 'forecast'].map((t) => (
           <TouchableOpacity key={t} onPress={() => setActiveTab(t as any)}
-            style={[styles.tab, activeTab === t && styles.tabActive]}>
-            <Text style={[styles.tabText, activeTab === t && styles.tabTextActive]} numberOfLines={1}>
+            style={[styles.tab, activeTab === t ? styles.tabActive : null]}>
+            <Text style={[styles.tabText, activeTab === t ? styles.tabTextActive : null]} numberOfLines={1}>
               {t === 'overview' ? '📊 Overview' : t === 'claims' ? `⚠️ (${flaggedClaims.length})` : t === 'triggers' ? '🔥 Triggers' : '📈 Forecast'}
             </Text>
           </TouchableOpacity>
@@ -294,8 +294,8 @@ export default function AdminDashboardScreen({ navigation }: any) {
             <View style={styles.zoneSelector}>
               {['Tambaram', 'Anna Nagar', 'Velachery', 'Andheri', 'Koramangala'].map((z) => (
                 <TouchableOpacity key={z} onPress={() => setSelectedZone(z)}
-                  style={[styles.zoneChip, selectedZone === z && styles.zoneChipActive]}>
-                  <Text style={[styles.zoneChipText, selectedZone === z && styles.zoneChipTextActive]}>{z}</Text>
+                  style={[styles.zoneChip, selectedZone === z ? styles.zoneChipActive : null]}>
+                  <Text style={[styles.zoneChipText, selectedZone === z ? styles.zoneChipTextActive : null]}>{z}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -304,7 +304,7 @@ export default function AdminDashboardScreen({ navigation }: any) {
               {TRIGGER_TYPES.map((type) => (
                 <TouchableOpacity key={type} onPress={() => simulateTrigger(type)}
                   disabled={!!simulating}
-                  style={[styles.triggerBtn, simulating === type && styles.triggerBtnActive]}>
+                  style={[styles.triggerBtn, simulating === type ? styles.triggerBtnActive : null]}>
                   <Text style={styles.triggerBtnEmoji}>{TRIGGER_EMOJIS[type]}</Text>
                   <Text style={styles.triggerBtnName}>{type.replace(/_/g, '\n')}</Text>
                   {simulating === type && <Text style={styles.triggerBtnFiring}>⚡ Firing...</Text>}

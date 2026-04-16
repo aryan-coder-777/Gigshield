@@ -53,7 +53,7 @@ export default function RoleSelectionScreen() {
             return (
               <TouchableOpacity
                 key={role.id}
-                style={[styles.roleItem, isSelected && styles.roleItemSelected]}
+                style={[styles.roleItem, isSelected ? styles.roleItemSelected : null]}
                 onPress={() => toggleRole(role.id)}
                 activeOpacity={0.7}
               >
@@ -61,7 +61,7 @@ export default function RoleSelectionScreen() {
                   <Ionicons name={role.icon as any} size={24} color={Colors.accentTeal} style={styles.roleIcon} />
                   <Text style={styles.roleLabel}>{role.label}</Text>
                 </View>
-                <View style={[styles.checkbox, isSelected && styles.checkboxActive]}>
+                <View style={[styles.checkbox, isSelected ? styles.checkboxActive : null]}>
                   {isSelected && <Ionicons name="checkmark" size={16} color="#FFF" />}
                 </View>
               </TouchableOpacity>
@@ -71,7 +71,7 @@ export default function RoleSelectionScreen() {
 
         <View style={styles.footer}>
           <TouchableOpacity 
-            style={[styles.nextBtn, selectedRoles.length === 0 && styles.nextBtnDisabled]}
+            style={[styles.nextBtn, selectedRoles.length === 0 ? styles.nextBtnDisabled : null]}
             disabled={selectedRoles.length === 0}
             onPress={handleNext}
           >

@@ -65,9 +65,10 @@ export default function ConfirmModal({
     }
   }, [visible]);
 
+  if (!visible) return null;
+
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onCancel}>
-      <View style={styles.backdrop}>
+    <View style={[StyleSheet.absoluteFill, styles.backdrop]}>
         <Animated.View
           style={[
             styles.card,
@@ -104,14 +105,19 @@ export default function ConfirmModal({
             </TouchableOpacity>
           </View>
         </Animated.View>
-      </View>
-    </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   backdrop: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,
+    elevation: 9999,
     backgroundColor: 'rgba(0,0,0,0.50)',
     alignItems: 'center',
     justifyContent: 'center',

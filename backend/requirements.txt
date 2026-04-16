@@ -18,3 +18,4 @@ websockets
 faker
 aiofiles
 bcrypt
+google-generativeai

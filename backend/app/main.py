@@ -7,7 +7,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from app.core.config import settings
 from app.core.database import create_tables
 from app.core.logger import startup_logger, get_logger
-from app.api import auth, policies, claims, admin, worker_insights
+from app.api import auth, policies, claims, admin, worker_insights, chat
 from app.api import triggers_v2 as triggers
 from app.services.trigger_monitor import run_monitor_sync
 
@@ -103,6 +103,7 @@ app.include_router(claims.router)
 app.include_router(triggers.router)
 app.include_router(admin.router)
 app.include_router(worker_insights.router)
+app.include_router(chat.router, prefix="/api/chat")
 
 
 @app.get("/")

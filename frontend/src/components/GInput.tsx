@@ -55,9 +55,9 @@ export const GInput: React.FC<GInputProps> = ({
       <View
         style={[
           styles.inputContainer,
-          focused && styles.focused,
-          !!error && styles.errorBorder,
-          !editable && styles.disabled,
+          focused ? styles.focused : null,
+          !!error ? styles.errorBorder : null,
+          !editable ? styles.disabled : null,
         ]}
       >
         {icon && (
@@ -69,7 +69,7 @@ export const GInput: React.FC<GInputProps> = ({
           />
         )}
         <TextInput
-          style={[styles.input, inputStyle, multiline && styles.multilineInput]}
+          style={[styles.input, inputStyle, multiline ? styles.multilineInput : null]}
           placeholder={placeholder}
           placeholderTextColor={Colors.textMuted}
           value={value}
